@@ -1,0 +1,3 @@
+{
+  "note": "google/flan-t5-small download repeatedly stalled/failed on this network; abandoned in favor of the no-download Keyword-Overlap Extractive QA tool"
+}

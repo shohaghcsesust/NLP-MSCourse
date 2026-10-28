@@ -1,0 +1,57 @@
+[
+  {
+    "id": "Q1",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Can penguins fly?",
+    "type": "Factual (yes/no)",
+    "expected": "No",
+    "tool": "Wikipedia API",
+    "page_used": "Penguin",
+    "answer": "Penguins are a group of flightless semi-aquatic sea birds which live almost exclusively in the Southern Hemisphere. Only one species, the Galapagos penguin, lives at, and slightly north of, the equator"
+  },
+  {
+    "id": "Q2",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Who is the father of Artificial Intelligence?",
+    "type": "Factual (named entity)",
+    "expected": "John McCarthy",
+    "tool": "Wikipedia API",
+    "page_used": "History of artificial intelligence",
+    "answer": "The history of artificial intelligence (AI) began in antiquity, with myths, stories, and rumors of artificial beings endowed with intelligence by master craftsmen. The field of research that eventually evolved into what is widely described as artifical intelligence was founded at a workshop held on the campus of Dartmouth College in 1956"
+  },
+  {
+    "id": "Q3",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "What is the capital of Bangladesh?",
+    "type": "Factual (named entity)",
+    "expected": "Dhaka",
+    "tool": "Wikipedia API",
+    "page_used": "Dhaka",
+    "answer": "Dhaka (  DAH-kə or   DAK-ə; Bengali: ঢাকা, romanized: Ḍhākā, pronounced [ˈɖʱaka] ), formerly spelled as Dacca, is the capital and largest city of Bangladesh. With an estimated population of 36.6 million, Dhaka is the second largest city by population in the world, and is widely considered to be the most densely populated built-up urban area in the world"
+  },
+  {
+    "id": "Q4",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Which bank has the highest interest rate?",
+    "type": "Ambiguous / underspecified",
+    "expected": "No single correct answer - depends on country, account type, and time period",
+    "tool": "Wikipedia API",
+    "page_used": "Interest rate cap and floor",
+    "answer": "In finance, an interest rate cap is a type of interest rate derivative in which the buyer receives payments at the end of each period in which the interest rate exceeds the agreed strike price.  An example of a cap would be an agreement to receive a payment for each month the LIBOR rate exceeds 2.5%"
+  },
+  {
+    "id": "Q5",
+    "lang": "bn",
+    "lang_full": "Bangla",
+    "question": "বাংলাদেশের রাজধানী কী?",
+    "type": "Factual (named entity, multilingual)",
+    "expected": "ঢাকা (Dhaka)",
+    "tool": "Wikipedia API",
+    "page_used": "রাজধানী",
+    "answer": "রাজধানী হলো সেই পৌরসভা, যা একটি দেশ, রাষ্ট্র, প্রদেশ, বিভাগ অথবা অন্যান্য উপ-জাতীয় বিভাগের প্রধান মর্যাদাপ্রাপ্ত কেন্দ্র, যা সাধারণত সরকারের আসন হিসেবে কাজ করে। রাজধানী সাধারণত একটি শহর, যেখানে সরকারের দপ্তর ও বৈঠকের স্থানগুলি অবস্থিত থাকে; আইন বা সংবিধান দ্বারা রাজধানীর মর্যাদা নির্ধারিত হয়। কিছু আইনব্যবস্থায়, একাধিক শাখা সরকারের বিভিন্ন শহরে অবস্থিত থাকে, যার ফলে একাধিক আনুষ্ঠানিক রাজধানী হতে পারে। কিছু ক্ষেত্রে, আনুষ্ঠানিক (সংবিধানিক) রাজধানী ও সরকারের আসনের মধ্যে পার্থক্য থাকে, যেখানে সরকারের আসন থাকে অন্য স্থানে। ইংরেজি ভাষার গণমাধ্যম প্রায়শই রাজধানীর নামকে রূপকভাবে ব্যবহার করে সেখানে অবস্থিত সরকারকে বোঝাতে। যেমন, \"লন্ডন-ওয়াশিংটন সম্পর্ক\" বলতে বোঝানো হয় ব্রিটেন ও যুক্তরাষ্ট্রের কূটনৈতিক সম্পর্ক। রাজধানী শব্দের ইংরেজি ক্যাপিটাল শব্দটি লাতিন ক্যাপিট থেকে এসেছ যার অর্থ হল 'প্রধান'। এছাড়াও ইংরেজি ক্যাপিটাল শব্দটি আরো বিভিন্ন অর্থে ব্যবহার করা হয়ে থাকে। তবে বাংলায় রাজধানী বলতে কোনও দেশ বা রাষ্ট্রের কেন্দ্রীয় শহরকেই বোঝানো হয়ে থাকে। রাজধানী হতে হলে কোনও শহরকে রাষ্ট্রের সবচেয়ে বড় শহর না হলেও চলে, কিন্তু রাষ্ট্রটির সকল প্রশাসনিক কার্যক্রম উক্ত শহরকে ঘিরেই আবর্তিত হয়। ঐতিহাসিকভাবে কোনও রাষ্ট্রের প্রধান অর্থনৈতিক শহরটি সে দেশের গুরুত্বপূর্ণ শহর হিসেবে বিবেচিত হয় এবং দেশের প্রায় সকল অংশই অর্থনৈতিকভাবে সচ্ছল উক্ত শহরের উপর নির্ভরশীল থাকে। যেমন, প্রাচীন বাগদাদ, প্রাচীন এথেন্স ও লন্ডনসহ বিভিন্ন শহর ছিল সংশ্লিষ্ট দেশগুলির তৎকালীন অর্থনীতির প্রাণকেন্দ্র। তাই এ'সব শহরেই সকল প্রকার প্রশাসনিক কার্যক্রম কেন্দ্রীভূত ছিল।"
+  }
+]

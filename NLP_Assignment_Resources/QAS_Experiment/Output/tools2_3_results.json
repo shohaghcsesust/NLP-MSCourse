@@ -1,0 +1,114 @@
+{
+  "tool2": [
+    {
+      "id": "Q1",
+      "question": "Can penguins fly?",
+      "lang": "en",
+      "wiki_page": "Penguin",
+      "context": "Penguins are a group of aquatic flightless birds from the order Sphenisciformes. They live almost exclusively in the Southern Hemisphere. Penguins cannot fly; their wings have evolved into flippers adapted for swimming. They are highly skilled swimmers and spend about half of their lives in the ocea",
+      "answer": "Penguins cannot fly",
+      "confidence_score": 0.649
+    },
+    {
+      "id": "Q2",
+      "question": "Who is the father of Artificial Intelligence?",
+      "lang": "en",
+      "wiki_page": "John McCarthy (computer scientist)",
+      "context": "John McCarthy (September 4, 1927 – October 24, 2011) was an American computer scientist and cognitive scientist. He was one of the founders of the discipline of artificial intelligence. He coined the term 'artificial intelligence' in 1955 and is widely regarded as the father of artificial intelligen",
+      "answer": "",
+      "confidence_score": 0.9824
+    },
+    {
+      "id": "Q3",
+      "question": "What is the capital of Bangladesh?",
+      "lang": "en",
+      "wiki_page": "Bangladesh",
+      "context": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. It is the eighth-most populous country in the world. The capital and largest city of Bangladesh is Dhaka. Bangladesh is bordered by India to the west, north, and east, and by Myanmar to the southeast; to the sout",
+      "answer": "Dhaka",
+      "confidence_score": 0.9671
+    },
+    {
+      "id": "Q4",
+      "question": "Which bank has the highest interest rate?",
+      "lang": "en",
+      "wiki_page": "Interest rate",
+      "context": "An interest rate is the amount of interest due per period, as a proportion of the amount lent, deposited, or borrowed. The total interest on an amount lent or borrowed depends on the principal sum, the interest rate, the compounding frequency, and the length of time over which it is lent, deposited,",
+      "answer": "",
+      "confidence_score": 0.9992
+    },
+    {
+      "id": "Q5",
+      "question": "What is the capital of Bangladesh?",
+      "lang": "bn",
+      "wiki_page": "Bangladesh",
+      "context": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. It is the eighth-most populous country in the world. The capital and largest city of Bangladesh is Dhaka. Bangladesh is bordered by India to the west, north, and east, and by Myanmar to the southeast; to the sout",
+      "answer": "Dhaka",
+      "confidence_score": 0.9671
+    },
+    {
+      "id": "Q6",
+      "question": "What is the capital of India?",
+      "lang": "hi",
+      "wiki_page": "India",
+      "context": "India, officially the Republic of India, is a country in South Asia. It is the seventh-largest country by area and the most populous country in the world. New Delhi is the capital of India and serves as the seat of all three branches of the Government of India. Mumbai is the largest city and the fin",
+      "answer": "New Delhi",
+      "confidence_score": 0.9164
+    }
+  ],
+  "tool3": [
+    {
+      "id": "Q1",
+      "question": "Can penguins fly?",
+      "lang": "en",
+      "wiki_page": "Penguin",
+      "context": "Penguins are a group of aquatic flightless birds from the order Sphenisciformes. They live almost exclusively in the Southern Hemisphere. Penguins cannot fly; their wings have evolved into flippers adapted for swimming. They are highly skilled swimmers and spend about half of their lives in the ocea",
+      "answer": "cannot",
+      "confidence_score": 0.7102
+    },
+    {
+      "id": "Q2",
+      "question": "Who is the father of Artificial Intelligence?",
+      "lang": "en",
+      "wiki_page": "John McCarthy (computer scientist)",
+      "context": "John McCarthy (September 4, 1927 – October 24, 2011) was an American computer scientist and cognitive scientist. He was one of the founders of the discipline of artificial intelligence. He coined the term 'artificial intelligence' in 1955 and is widely regarded as the father of artificial intelligen",
+      "answer": "mccarthy",
+      "confidence_score": 0.7503
+    },
+    {
+      "id": "Q3",
+      "question": "What is the capital of Bangladesh?",
+      "lang": "en",
+      "wiki_page": "Bangladesh",
+      "context": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. It is the eighth-most populous country in the world. The capital and largest city of Bangladesh is Dhaka. Bangladesh is bordered by India to the west, north, and east, and by Myanmar to the southeast; to the sout",
+      "answer": "dhaka",
+      "confidence_score": 0.8832
+    },
+    {
+      "id": "Q4",
+      "question": "Which bank has the highest interest rate?",
+      "lang": "en",
+      "wiki_page": "Interest rate",
+      "context": "An interest rate is the amount of interest due per period, as a proportion of the amount lent, deposited, or borrowed. The total interest on an amount lent or borrowed depends on the principal sum, the interest rate, the compounding frequency, and the length of time over which it is lent, deposited,",
+      "answer": "",
+      "confidence_score": 0.1875
+    },
+    {
+      "id": "Q5",
+      "question": "What is the capital of Bangladesh?",
+      "lang": "bn",
+      "wiki_page": "Bangladesh",
+      "context": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. It is the eighth-most populous country in the world. The capital and largest city of Bangladesh is Dhaka. Bangladesh is bordered by India to the west, north, and east, and by Myanmar to the southeast; to the sout",
+      "answer": "dhaka",
+      "confidence_score": 0.8832
+    },
+    {
+      "id": "Q6",
+      "question": "What is the capital of India?",
+      "lang": "hi",
+      "wiki_page": "India",
+      "context": "India, officially the Republic of India, is a country in South Asia. It is the seventh-largest country by area and the most populous country in the world. New Delhi is the capital of India and serves as the seat of all three branches of the Government of India. Mumbai is the largest city and the fin",
+      "answer": "new delhi",
+      "confidence_score": 0.6875
+    }
+  ]
+}

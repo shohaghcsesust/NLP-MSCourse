@@ -1,0 +1,47 @@
+{
+  "model": "Helsinki-NLP/opus-mt-mul-en + opus-mt-en-mul",
+  "results": [
+    {
+      "id": "P1",
+      "direction": "EN->BN",
+      "original": "Artificial intelligence is transforming modern healthcare and education systems.",
+      "forward_translation": "বিশ্বাসী বুদ্ধি আধ্যাত্মিক সাহায্য ও শিক্ষা সিস্টেম পরিবর্তন করা হচ্ছে।",
+      "back_translation": "A reliable understanding of spiritual help and education is changing.",
+      "round_trip_accuracy": 33.3
+    },
+    {
+      "id": "P2",
+      "direction": "BN->EN",
+      "original": "বাংলাদেশ দক্ষিণ এশিয়ার একটি উন্নয়নশীল দেশ।",
+      "forward_translation": "Bangladesh is a developing country in South Asia.",
+      "back_translation": "বাংলাদেশ দক্ষিণ এশিয়াতে একটি উন্নয়ন দেশ।",
+      "round_trip_accuracy": 66.7
+    },
+    {
+      "id": "P3",
+      "direction": "HI->EN",
+      "original": "भारत एक विविधताओं से भरा लोकतांत्रिक देश है।",
+      "forward_translation": "India is a democratic country of diversity.",
+      "back_translation": "भारत भविष्यवाणी के एक राष्ट्र है.",
+      "round_trip_accuracy": 25.0
+    },
+    {
+      "id": "P4",
+      "direction": "EN->HI",
+      "original": "Natural language processing enables computers to understand human language.",
+      "forward_translation": "मानवी भाषा को समझने के लिए कम्प्यूटरों को स्वाभाविक भाषा प्रक्रिया देता है ।",
+      "back_translation": "It enables computers to process natural language to understand the human language.",
+      "round_trip_accuracy": 100.0
+    },
+    {
+      "id": "P5",
+      "direction": "BN->HI (pivot)",
+      "original": "বাংলাদেশের রাজধানী ঢাকা একটি ব্যস্ত মহানগরী।",
+      "pivot_english": "Prime Minister Dhaka of Bangladesh is a busy mayor.",
+      "forward_translation": "बंग्लादेश के प्रधान दाका एक व्यस्त मैयर है.",
+      "back_translation": "বাংলাদেশের রাষ্ট্রের প্রধান একজন ব্যস্ত মেয়ার।",
+      "round_trip_accuracy": 33.3,
+      "note": "BN->EN->HI pivot; RT via BN->EN->HI->EN->BN"
+    }
+  ]
+}

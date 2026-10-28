@@ -1,0 +1,55 @@
+[
+  {
+    "id": "S1",
+    "src_lang": "en",
+    "tgt_lang": "bn",
+    "text": "Welcome to the Natural Language Processing laboratory.",
+    "tool": "ArgosTranslate",
+    "forward": null,
+    "back_translated": null,
+    "round_trip_accuracy_pct": null,
+    "note": "Argos Translate's Stanza-based sentence splitter has a bug/missing resource for Bangla source text (KeyError: 'packages') - translation from Bangla is currently broken in this tool"
+  },
+  {
+    "id": "S2",
+    "src_lang": "bn",
+    "tgt_lang": "en",
+    "text": "বাংলাদেশ একটি সুন্দর দেশ।",
+    "tool": "ArgosTranslate",
+    "forward": null,
+    "back_translated": null,
+    "round_trip_accuracy_pct": null,
+    "note": "Argos Translate's Stanza-based sentence splitter has a bug/missing resource for Bangla source text (KeyError: 'packages') - translation from Bangla is currently broken in this tool"
+  },
+  {
+    "id": "S3",
+    "src_lang": "hi",
+    "tgt_lang": "en",
+    "text": "मेरा नाम राहुल है।",
+    "tool": "ArgosTranslate",
+    "forward": "My name is Rahul.",
+    "back_translated": "मेरा नाम राहुल है।",
+    "round_trip_accuracy_pct": 100.0
+  },
+  {
+    "id": "S4",
+    "src_lang": "en",
+    "tgt_lang": "hi",
+    "text": "Artificial Intelligence is transforming healthcare, education, and business by improving automation and decision making.",
+    "tool": "ArgosTranslate",
+    "forward": "आर्टिफिशियल इंटेलिजेंस स्वचालन और निर्णय लेने में सुधार करके हेल्थकेयर, शिक्षा और व्यवसाय को बदल रहा है।",
+    "back_translated": "Artificial Intelligence is changing healthcare, education and business by improving automation and decision making.",
+    "round_trip_accuracy_pct": 92.9
+  },
+  {
+    "id": "S5",
+    "src_lang": "bn",
+    "tgt_lang": "hi",
+    "text": "বাংলাদেশের কৃষি উন্নয়নে কৃত্রিম বুদ্ধিমত্তা এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ গুরুত্বপূর্ণ ভূমিকা পালন করছে।",
+    "tool": "ArgosTranslate",
+    "forward": null,
+    "back_translated": null,
+    "round_trip_accuracy_pct": null,
+    "note": "No installed Argos package for bn<->hi"
+  }
+]

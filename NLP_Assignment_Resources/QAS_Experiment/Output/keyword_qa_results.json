@@ -1,0 +1,62 @@
+[
+  {
+    "id": "Q1",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Can penguins fly?",
+    "type": "Factual (yes/no)",
+    "expected": "No",
+    "tool": "Keyword-Overlap Extractive QA",
+    "page_used": "Penguin",
+    "matched_keyword_count": 1,
+    "answer": "Penguins are a group of flightless semi-aquatic sea birds which live almost exclusively in the Southern Hemisphere."
+  },
+  {
+    "id": "Q2",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Who is the father of Artificial Intelligence?",
+    "type": "Factual (named entity)",
+    "expected": "John McCarthy",
+    "tool": "Keyword-Overlap Extractive QA",
+    "page_used": "History of artificial intelligence",
+    "matched_keyword_count": 2,
+    "answer": "The history of artificial intelligence (AI) began in antiquity, with myths, stories, and rumors of artificial beings endowed with intelligence by master craftsmen."
+  },
+  {
+    "id": "Q3",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "What is the capital of Bangladesh?",
+    "type": "Factual (named entity)",
+    "expected": "Dhaka",
+    "tool": "Keyword-Overlap Extractive QA",
+    "page_used": "Dhaka",
+    "matched_keyword_count": 2,
+    "answer": "Dhaka (  DAH-kə or   DAK-ə; Bengali: ঢাকা, romanized: Ḍhākā, pronounced [ˈɖʱaka] ), formerly spelled as Dacca, is the capital and largest city of Bangladesh."
+  },
+  {
+    "id": "Q4",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Which bank has the highest interest rate?",
+    "type": "Ambiguous / underspecified",
+    "expected": "No single correct answer - depends on country, account type, and time period",
+    "tool": "Keyword-Overlap Extractive QA",
+    "page_used": "Credit card interest",
+    "matched_keyword_count": 2,
+    "answer": "The bank pays the payee and then charges the cardholder interest over the time the money remains borrowed."
+  },
+  {
+    "id": "Q5",
+    "lang": "bn",
+    "lang_full": "Bangla",
+    "question": "বাংলাদেশের রাজধানী কী?",
+    "type": "Factual (named entity, multilingual)",
+    "expected": "ঢাকা (Dhaka)",
+    "tool": "Keyword-Overlap Extractive QA",
+    "page_used": "রাজধানী",
+    "matched_keyword_count": 8,
+    "answer": "তবে বাংলায় রাজধানী বলতে কোনও দেশ বা রাষ্ট্রের কেন্দ্রীয় শহরকেই বোঝানো হয়ে থাকে।"
+  }
+]

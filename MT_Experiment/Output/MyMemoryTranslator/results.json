@@ -1,0 +1,52 @@
+[
+  {
+    "id": "S1",
+    "src_lang": "en",
+    "tgt_lang": "bn",
+    "text": "Welcome to the Natural Language Processing laboratory.",
+    "tool": "MyMemoryTranslator",
+    "forward": "প্রাকৃতিক ভাষা প্রক্রিয়াকরণ পরীক্ষাগারে স্বাগতম ।",
+    "back_translated": "Welcome to the Natural Language Processing Laboratory.",
+    "round_trip_accuracy_pct": 100.0
+  },
+  {
+    "id": "S2",
+    "src_lang": "bn",
+    "tgt_lang": "en",
+    "text": "বাংলাদেশ একটি সুন্দর দেশ।",
+    "tool": "MyMemoryTranslator",
+    "forward": "Bangladesh is a beautiful country.",
+    "back_translated": "বাংলাদেশ একটি সুন্দর দেশ ।",
+    "round_trip_accuracy_pct": 100.0
+  },
+  {
+    "id": "S3",
+    "src_lang": "hi",
+    "tgt_lang": "en",
+    "text": "मेरा नाम राहुल है।",
+    "tool": "MyMemoryTranslator",
+    "forward": "My name is Rahul.",
+    "back_translated": "मेरा नाम राहुल है।",
+    "round_trip_accuracy_pct": 100.0
+  },
+  {
+    "id": "S4",
+    "src_lang": "en",
+    "tgt_lang": "hi",
+    "text": "Artificial Intelligence is transforming healthcare, education, and business by improving automation and decision making.",
+    "tool": "MyMemoryTranslator",
+    "forward": "आर्टिफिशियल इंटेलिजेंस ऑटोमेशन और निर्णय लेने में सुधार करके स्वास्थ्य सेवा, शिक्षा और व्यवसाय को बदल रहा है।",
+    "back_translated": "Artificial Intelligence is transforming healthcare, education, and business by improving automation and decision-making.",
+    "round_trip_accuracy_pct": 100.0
+  },
+  {
+    "id": "S5",
+    "src_lang": "bn",
+    "tgt_lang": "hi",
+    "text": "বাংলাদেশের কৃষি উন্নয়নে কৃত্রিম বুদ্ধিমত্তা এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ গুরুত্বপূর্ণ ভূমিকা পালন করছে।",
+    "tool": "MyMemoryTranslator",
+    "forward": "बांग्लादेश के कृषि विकास में आर्टिफिशियल इंटेलिजेंस और नेचुरल लैंग्वेज प्रोसेसिंग महत्वपूर्ण भूमिका निभा रहे हैं।",
+    "back_translated": "আর্টিফিশিয়াল ইন্টেলিজেন্স এবং ন্যাচারাল ল্যাঙ্গুয়েজ প্রসেসিং বাংলাদেশের কৃষি উন্নয়নে গুরুত্বপূর্ণ ভূমিকা পালন করছে ।",
+    "round_trip_accuracy_pct": 53.8
+  }
+]

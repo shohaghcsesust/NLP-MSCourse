@@ -1,0 +1,34 @@
+[
+  {
+    "id": "I1",
+    "text": "It's raining cats and dogs.",
+    "type": "Idiom",
+    "note": "Should be translated as 'raining heavily', not word-for-word",
+    "translation_bn": "বৃষ্টি হচ্ছে বিড়াল এবং কুকুর ।",
+    "translation_hi": "मुसलाधार बारिश होती है।"
+  },
+  {
+    "id": "I2",
+    "text": "I sat by the bank of the river.",
+    "type": "Ambiguous word (bank = riverbank)",
+    "note": "Should NOT translate 'bank' as financial institution",
+    "translation_bn": "আমি নদীর তীরে বসেছিলাম ।",
+    "translation_hi": "मैं नदी के किनारे बैठ गया।"
+  },
+  {
+    "id": "I3",
+    "text": "I deposited money in the bank.",
+    "type": "Ambiguous word (bank = financial institution)",
+    "note": "Should NOT translate 'bank' as riverbank",
+    "translation_bn": "আমি ব্যাংকে টাকা জমা দিয়েছি ।",
+    "translation_hi": "मैंने बैंक में पैसे जमा कर दिए।"
+  },
+  {
+    "id": "I4",
+    "text": "Life is not a bed of roses.",
+    "type": "Idiom",
+    "note": "Should be translated as 'not easy/comfortable', not literal flowers",
+    "translation_bn": "Life is not bed of rose",
+    "translation_hi": "जीवन फूलों की सेज नहीं है"
+  }
+]

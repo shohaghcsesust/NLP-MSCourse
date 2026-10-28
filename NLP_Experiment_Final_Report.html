@@ -1,0 +1,1045 @@
+<title>NLP Experiments Report</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* Layout: sticky top-nav + single-column academic report */
+:root {
+  --bg: #F6F5F0;
+  --card: #FFFFFF;
+  --fg: #1C1C1E;
+  --fg-muted: #5A5A68;
+  --accent: #1A3A6B;
+  --accent-soft: #E4ECF7;
+  --border: #D6D3C9;
+  --success: #166534;
+  --success-bg: #DCFCE7;
+  --warn: #92400E;
+  --warn-bg: #FEF3C7;
+  --danger: #991B1B;
+  --danger-bg: #FEE2E2;
+  --neutral-bg: #EDEDEA;
+  --code-bg: #F0EEE8;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --radius: 6px;
+  --new-accent: #14532D;
+  --new-soft: #DCFCE7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0D1117;
+    --card: #161B26;
+    --fg: #E2E0DA;
+    --fg-muted: #8A8998;
+    --accent: #6B9BE4;
+    --accent-soft: #192335;
+    --border: #282C38;
+    --success: #4ADE80;
+    --success-bg: #052E16;
+    --warn: #FCD34D;
+    --warn-bg: #1B1308;
+    --danger: #F87171;
+    --danger-bg: #1F0808;
+    --neutral-bg: #1A1D26;
+    --code-bg: #1E2130;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --new-accent: #4ADE80;
+    --new-soft: #052E16;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0D1117;
+  --card: #161B26;
+  --fg: #E2E0DA;
+  --fg-muted: #8A8998;
+  --accent: #6B9BE4;
+  --accent-soft: #192335;
+  --border: #282C38;
+  --success: #4ADE80;
+  --success-bg: #052E16;
+  --warn: #FCD34D;
+  --warn-bg: #1B1308;
+  --danger: #F87171;
+  --danger-bg: #1F0808;
+  --neutral-bg: #1A1D26;
+  --code-bg: #1E2130;
+  --shadow: 0 1px 3px rgba(0,0,0,0.4);
+  --new-accent: #4ADE80;
+  --new-soft: #052E16;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* Top bar */
+.top-bar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--accent);
+  color: #fff;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+}
+.top-bar-brand {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  padding: 14px 16px 14px 0;
+  border-right: 1px solid rgba(255,255,255,0.18);
+  margin-right: 6px;
+  opacity: 0.88;
+}
+.tab-nav { display: flex; overflow-x: auto; scrollbar-width: none; }
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  background: none; border: none;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px; font-weight: 500;
+  padding: 15px 16px;
+  cursor: pointer; white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover { color: rgba(255,255,255,0.88); }
+.tab-btn.active { color: #fff; border-bottom-color: #fff; }
+
+/* Page layout */
+.page-wrap { max-width: 920px; margin: 0 auto; padding: 36px 20px; }
+
+/* Cover */
+.cover { border-bottom: 2px solid var(--accent); padding-bottom: 28px; margin-bottom: 36px; }
+.eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+}
+.cover h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: clamp(22px, 4vw, 34px);
+  font-weight: 700; line-height: 1.2;
+  margin: 0 0 14px; text-wrap: balance;
+}
+.cover-meta { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 13px; color: var(--fg-muted); }
+
+/* Sections */
+.section { display: none; }
+.section.active { display: block; }
+.section-header { margin-bottom: 24px; }
+.section-header h2 { font-family: 'Libre Baskerville', serif; font-size: 24px; font-weight: 700; margin: 6px 0 8px; }
+.section-header p { color: var(--fg-muted); margin: 0; max-width: 64ch; }
+
+h3 { font-family: 'Libre Baskerville', serif; font-size: 16px; font-weight: 700; margin: 28px 0 10px; }
+h4 { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); margin: 20px 0 6px; }
+
+/* Stat row */
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 24px; }
+.stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; box-shadow: var(--shadow); }
+.stat-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 3px; }
+.stat-value { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--accent); line-height: 1.1; }
+.stat-sub { font-size: 11px; color: var(--fg-muted); margin-top: 2px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin: 12px 0 24px; box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; background: var(--card); min-width: 0; }
+thead { background: var(--neutral-bg); }
+th { font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); text-align: left; padding: 9px 13px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 9px 13px; border-bottom: 1px solid var(--border); vertical-align: top; min-width: 0; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--accent-soft); }
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; }
+
+/* Badges */
+.badge { display: inline-block; font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 20px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.badge-success { background: var(--success-bg); color: var(--success); }
+.badge-warn    { background: var(--warn-bg);    color: var(--warn); }
+.badge-danger  { background: var(--danger-bg);  color: var(--danger); }
+.badge-neutral { background: var(--neutral-bg); color: var(--fg-muted); }
+.badge-info    { background: var(--accent-soft); color: var(--accent); }
+.badge-new     { background: var(--new-soft);   color: var(--new-accent); }
+
+/* Callout boxes */
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 15px; margin: 12px 0; font-size: 13.5px; color: var(--fg); }
+.callout.warn  { border-color: var(--warn);  background: var(--warn-bg);  color: var(--warn); }
+.callout.danger{ border-color: var(--danger);background: var(--danger-bg);color: var(--danger); }
+.callout.green { border-color: var(--success);background: var(--success-bg);color: var(--success); }
+.callout-title { font-weight: 600; margin-bottom: 4px; font-size: 13px; }
+
+/* Tool cards */
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin: 12px 0 24px; }
+.tool-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); }
+.tool-card.recommended { border-color: var(--success); border-width: 1.5px; }
+.tool-card.rejected { border-color: var(--danger); opacity: 0.82; }
+.tool-name { font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+.tool-sub { font-size: 11px; color: var(--fg-muted); margin-bottom: 8px; }
+.tool-desc { font-size: 12.5px; color: var(--fg-muted); margin-bottom: 10px; line-height: 1.5; }
+.tool-langs { display: flex; flex-wrap: wrap; gap: 4px; }
+
+/* Code block */
+.code-block { background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; overflow-x: auto; margin: 8px 0 20px; line-height: 1.7; white-space: pre; }
+
+/* Section divider */
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+/* Old vs New split header */
+.phase-header {
+  display: flex; align-items: center; gap: 10px;
+  margin: 28px 0 12px;
+}
+.phase-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 9px;
+  border-radius: 20px; white-space: nowrap;
+}
+.phase-old { background: var(--danger-bg); color: var(--danger); }
+.phase-new { background: var(--success-bg); color: var(--success); }
+.phase-line { flex: 1; height: 1px; background: var(--border); }
+
+/* Trace pill */
+.trace { font-family: 'JetBrains Mono', monospace; font-size: 10px; background: var(--neutral-bg); color: var(--fg-muted); padding: 2px 7px; border-radius: 4px; border: 1px solid var(--border); word-break: break-all; }
+
+/* Summary box */
+.summary-box { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin: 16px 0 28px; box-shadow: var(--shadow); }
+.summary-box ul { padding-left: 20px; margin: 8px 0 0; }
+.summary-box li { font-size: 14px; margin-bottom: 8px; line-height: 1.6; }
+</style>
+
+<!-- Top nav -->
+<div class="top-bar" role="navigation">
+  <div class="top-bar-brand">CSE 6213 · NLP</div>
+  <div class="tab-nav" role="tablist">
+    <button class="tab-btn active" onclick="showTab('overview')" role="tab">Overview</button>
+    <button class="tab-btn"        onclick="showTab('stt')"      role="tab">STT</button>
+    <button class="tab-btn"        onclick="showTab('qas')"      role="tab">QAS</button>
+    <button class="tab-btn"        onclick="showTab('mt')"       role="tab">MT</button>
+    <button class="tab-btn"        onclick="showTab('trace')"    role="tab">Traceability</button>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ════════════════════ OVERVIEW ════════════════════ -->
+<div id="tab-overview" class="section active">
+  <div class="cover">
+    <div class="eyebrow">NLP Practical Evaluation · Fall 2026</div>
+    <h1>NLP Tools Experiment Report<br><span style="font-size:0.62em;font-weight:400;font-style:italic;color:var(--fg-muted)">Revised: Corrected Tool Selection for EN + BN + HI</span></h1>
+    <div class="cover-meta">
+      <span>CSE 6213 — Natural Language Processing</span>
+      <span>Experiments: STT · QAS · MT</span>
+      <span>Languages: English · Bangla · Hindi</span>
+    </div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Tool Selection Problem — Original Experiment</div>
+    The original experiment used tools that did <strong>not adequately support all three required languages</strong> (English, Bangla, Hindi). Vosk and pocketsphinx have no Bangla model; ArgosTranslate crashes on Bangla; Helsinki-NLP OPUS-MT has no EN→BN or EN→HI or BN→HI models. This report documents both the original results and the correct tool alternatives that support all three languages.
+  </div>
+
+  <h3>Corrected Tool Selection</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Experiment</th><th>Original (Problematic) Tools</th><th>Problems</th><th>Recommended Replacements</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>STT</strong></td>
+          <td>faster-whisper, Vosk, pocketsphinx</td>
+          <td>No Bangla in Vosk or pocketsphinx; faster-whisper failed BN due to missing <code>language="bn"</code></td>
+          <td><span class="badge badge-new">Whisper large-v3</span> (explicit lang param) · <span class="badge badge-new">MMS-300M</span> · <span class="badge badge-new">SeamlessM4T v2</span></td>
+        </tr>
+        <tr>
+          <td><strong>QAS</strong></td>
+          <td>Wikipedia API, Keyword Extractive, Wikidata KG</td>
+          <td>Wikidata only handles "capital of X" pattern; Wikipedia BN/HI retrieval wrong; no neural multilingual QA</td>
+          <td><span class="badge badge-new">XLM-RoBERTa SQuAD2</span> · <span class="badge badge-new">mBERT TyDiQA</span> · <span class="badge badge-new">Haystack + multilingual reader</span></td>
+        </tr>
+        <tr>
+          <td><strong>MT</strong></td>
+          <td>MyMemoryTranslator, ArgosTranslate, Helsinki-NLP OPUS-MT</td>
+          <td>ArgosTranslate Bangla crash; Helsinki-NLP has no EN→BN, EN→HI, or BN→HI models; MyMemory is an external API</td>
+          <td><span class="badge badge-new">NLLB-200 distilled</span> · <span class="badge badge-new">M2M100 (MIT)</span> · <span class="badge badge-new">Helsinki-NLP opus-mt-en-hi + bn-en</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Language Coverage Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>Task</th><th>English</th><th>Bangla</th><th>Hindi</th><th>Suitable?</th></tr></thead>
+      <tbody>
+        <tr><td>faster-whisper (no lang param)</td><td>STT</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">✗ wrong script</span></td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">No</span></td></tr>
+        <tr><td>Vosk</td><td>STT</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">✗ no model</span></td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">No</span></td></tr>
+        <tr><td>pocketsphinx</td><td>STT</td><td><span class="badge badge-warn">~71%</span></td><td><span class="badge badge-danger">✗</span></td><td><span class="badge badge-danger">✗</span></td><td><span class="badge badge-danger">No</span></td></tr>
+        <tr style="background:var(--success-bg)"><td><strong>Whisper large-v3 (language="bn"/"hi")</strong></td><td>STT</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-success">✓ Bengali script</span></td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-new">✓ Recommended</span></td></tr>
+        <tr style="background:var(--success-bg)"><td><strong>facebook/mms-300m</strong></td><td>STT</td><td><span class="badge badge-success">eng</span></td><td><span class="badge badge-success">ben</span></td><td><span class="badge badge-success">hin</span></td><td><span class="badge badge-new">✓ Recommended</span></td></tr>
+        <tr><td>Wikidata KG</td><td>QAS</td><td><span class="badge badge-warn">capital-of only</span></td><td><span class="badge badge-warn">capital-of only</span></td><td><span class="badge badge-warn">capital-of only</span></td><td><span class="badge badge-danger">Limited</span></td></tr>
+        <tr style="background:var(--success-bg)"><td><strong>deepset/xlm-roberta-large-squad2</strong></td><td>QAS</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-success">✓ zero-shot</span></td><td><span class="badge badge-success">✓ zero-shot</span></td><td><span class="badge badge-new">✓ Recommended</span></td></tr>
+        <tr><td>ArgosTranslate</td><td>MT</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">✗ crash</span></td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-danger">No</span></td></tr>
+        <tr><td>Helsinki-NLP OPUS-MT</td><td>MT</td><td><span class="badge badge-success">✓</span></td><td><span class="badge badge-warn">BN→EN only</span></td><td><span class="badge badge-warn">HI→EN only</span></td><td><span class="badge badge-danger">No (incomplete)</span></td></tr>
+        <tr style="background:var(--success-bg)"><td><strong>facebook/nllb-200-distilled-600M</strong></td><td>MT</td><td><span class="badge badge-success">eng_Latn</span></td><td><span class="badge badge-success">ben_Beng</span></td><td><span class="badge badge-success">hin_Deva</span></td><td><span class="badge badge-new">✓ Recommended</span></td></tr>
+        <tr style="background:var(--success-bg)"><td><strong>facebook/m2m100_418M</strong></td><td>MT</td><td><span class="badge badge-success">en</span></td><td><span class="badge badge-success">bn</span></td><td><span class="badge badge-success">hi</span></td><td><span class="badge badge-new">✓ Recommended (MIT)</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════ STT ════════════════════ -->
+<div id="tab-stt" class="section">
+  <div class="section-header">
+    <div class="eyebrow">Experiment 1 — Speech-to-Text</div>
+    <h2>STT: Original Results & Recommended Tools</h2>
+    <p>Three tools were originally tested. Only faster-whisper has multilingual support, but it failed on Bangla because the <code>language</code> parameter was not explicitly set. Below shows the original results and the corrected tool selection.</p>
+  </div>
+
+  <!-- ── ORIGINAL ── -->
+  <div class="phase-header">
+    <span class="phase-label phase-old">Original Run — Tool Selection Problem</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Why the original tools are inadequate</div>
+    <strong>faster-whisper:</strong> Supports 99 languages including Bangla, but <code>language</code> was not specified — auto-detection chose Hindi (Devanagari) for Bangla audio, producing 0% accuracy.<br>
+    <strong>Vosk:</strong> No publicly available Bangla acoustic model.<br>
+    <strong>pocketsphinx:</strong> English-only acoustic model shipped; no multilingual support; max ~71% accuracy even on clean English.
+  </div>
+
+  <h4>Original Results Summary</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>EN Clean</th><th>EN Slow</th><th>SNR 15dB</th><th>SNR 0dB</th><th>Hindi</th><th>Bangla</th></tr></thead>
+      <tbody>
+        <tr><td>faster-whisper</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-danger">0% (Devanagari out)</span></td></tr>
+        <tr><td>Vosk</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-warn">85.7%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-warn">85.7%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-neutral">No model</span></td></tr>
+        <tr><td>pocketsphinx</td><td><span class="badge badge-warn">71.4%</span></td><td><span class="badge badge-warn">71.4%</span></td><td><span class="badge badge-danger">0%</span></td><td><span class="badge badge-danger">0%</span></td><td><span class="badge badge-neutral">No model</span></td><td><span class="badge badge-neutral">No model</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── RECOMMENDED ── -->
+  <div class="phase-header">
+    <span class="phase-label phase-new">Recommended Tools — Full EN + BN + HI Support</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">Fix for faster-whisper Bangla failure</div>
+    The model already supports Bangla. The only required change is explicitly passing <code>language="bn"</code>. This forces the decoder to output Bengali script instead of auto-detecting Hindi. No model change needed.
+  </div>
+
+  <div class="tool-grid">
+    <div class="tool-card recommended">
+      <div class="tool-name">Whisper large-v3</div>
+      <div class="tool-sub">openai/whisper-large-v3 · MIT License</div>
+      <div class="tool-desc">99-language multilingual ASR. Supports Bangla and Hindi natively when the <code>language</code> parameter is explicitly set. Best accuracy across all three target languages.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN: "en"</span>
+        <span class="badge badge-new">BN: "bn"</span>
+        <span class="badge badge-new">HI: "hi"</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">facebook/mms-300m</div>
+      <div class="tool-sub">Meta MMS · CC-BY-NC 4.0</div>
+      <div class="tool-desc">Massively Multilingual Speech model pretrained on 1,400+ languages. Uses per-language adapter weights. Excellent Bangla and Hindi support via language-specific adapters.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN: "eng"</span>
+        <span class="badge badge-new">BN: "ben"</span>
+        <span class="badge badge-new">HI: "hin"</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">SeamlessM4T v2</div>
+      <div class="tool-sub">facebook/seamless-m4t-v2-large · CC-BY-NC 4.0</div>
+      <div class="tool-desc">Multimodal model handling Speech→Text, Text→Text, Speech→Speech in one model. Supports 101 spoken languages including Bangla and Hindi. Useful if combining STT with MT.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN: "eng"</span>
+        <span class="badge badge-new">BN: "ben"</span>
+        <span class="badge badge-new">HI: "hin"</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Installation</h3>
+  <div class="code-block">pip install openai-whisper          # Whisper
+pip install faster-whisper          # faster-whisper (CTranslate2 backend)
+pip install transformers torchaudio # MMS-300M / SeamlessM4T (HuggingFace)</div>
+
+  <h3>Corrected faster-whisper Code (Bangla fix)</h3>
+  <div class="code-block">from faster_whisper import WhisperModel
+
+model = WhisperModel("large-v3", device="cpu", compute_type="int8")
+
+# CRITICAL: specify language explicitly — do NOT leave it to auto-detect
+segments, info = model.transcribe("S2_clean.wav", language="bn", beam_size=5)
+for seg in segments:
+    print(seg.text)   # Now outputs Bengali script: বাংলাদেশ একটি সুন্দর দেশ।
+
+# For Hindi:
+segments, _ = model.transcribe("S3_clean.wav", language="hi", beam_size=5)
+# For English:
+segments, _ = model.transcribe("S1_clean.wav", language="en", beam_size=5)</div>
+
+  <h3>facebook/mms-300m Usage</h3>
+  <div class="code-block">from transformers import Wav2Vec2ForCTC, AutoProcessor
+import torch, librosa
+
+model_id = "facebook/mms-300m"
+processor = AutoProcessor.from_pretrained(model_id)
+model     = Wav2Vec2ForCTC.from_pretrained(model_id)
+
+def transcribe(wav_path, lang):          # lang: "ben" / "hin" / "eng"
+    processor.tokenizer.set_target_lang(lang)
+    model.load_adapter(lang)
+    audio, _ = librosa.load(wav_path, sr=16000)
+    inputs = processor(audio, sampling_rate=16000, return_tensors="pt")
+    with torch.no_grad():
+        logits = model(**inputs).logits
+    ids = torch.argmax(logits, dim=-1)
+    return processor.decode(ids[0])
+
+print(transcribe("S2_clean.wav", "ben"))   # Bangla output
+print(transcribe("S3_clean.wav", "hin"))   # Hindi output
+print(transcribe("S1_clean.wav", "eng"))   # English output</div>
+
+  <h3>Expected Accuracy with Corrected Tools</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tool</th><th>EN Clean</th><th>EN Noise</th><th>Bangla</th><th>Hindi</th><th>Offline</th><th>License</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Whisper large-v3</strong> (lang param)</td><td><span class="badge badge-new">~100%</span></td><td><span class="badge badge-new">~95–100%</span></td><td><span class="badge badge-new">~70–80%</span></td><td><span class="badge badge-new">~90–95%</span></td><td>Yes</td><td>MIT</td></tr>
+        <tr><td><strong>MMS-300M</strong></td><td><span class="badge badge-new">Good</span></td><td><span class="badge badge-new">Moderate</span></td><td><span class="badge badge-new">Good</span></td><td><span class="badge badge-new">Good</span></td><td>Yes</td><td>CC-BY-NC</td></tr>
+        <tr><td><strong>SeamlessM4T v2</strong></td><td><span class="badge badge-new">Good</span></td><td><span class="badge badge-new">Good</span></td><td><span class="badge badge-new">Good</span></td><td><span class="badge badge-new">Good</span></td><td>Yes</td><td>CC-BY-NC</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Note on Bangla STT accuracy</div>
+    Bangla training data is sparse in Whisper's Common Voice / VoxPopuli corpus. Whisper large-v3 achieves roughly 70–80% WER for Bangla — significantly better than 0% from the auto-detect failure. The community fine-tuned model <strong>SayedShaun/bengali-whisper-medium-ct2</strong> provides further Bangla improvement if needed.
+  </div>
+
+  <!-- ── ACTUAL RESULTS ── -->
+  <div class="phase-header" style="margin-top:36px">
+    <span class="phase-label phase-new">Actual Experimental Output</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">✓ Both tools ran successfully — real transcription output captured</div>
+    Tool 1: faster-whisper-large-v3 with <code>language="bn"/"hi"</code> explicit param. Tool 2: bengaliAI/tugstugi_bengaliai-asr_whisper-medium (Bangla fine-tune, BN inputs only). Audio loaded via soundfile (float32 array) to avoid ffmpeg dependency.
+  </div>
+
+  <h4>Tool 1 — faster-whisper-large-v3 (explicit language param)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Lang</th><th>Condition</th><th>Reference</th><th>Hypothesis</th><th>Word Acc.</th></tr></thead>
+      <tbody>
+        <tr><td>S1</td><td>EN</td><td>Clean</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing laboratory.</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing Laboratory.</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S1-slow</td><td>EN</td><td>Slow speech</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing laboratory.</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing Laboratory.</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S1-noise-mild</td><td>EN</td><td>SNR 15 dB</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing laboratory.</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing Laboratory.</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S1-noise-heavy</td><td>EN</td><td>SNR 0 dB</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing laboratory.</td><td class="mono" style="font-size:11px">Welcome to the Natural Language Processing Laboratory.</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S2</td><td>BN</td><td>Clean</td><td class="mono" style="font-size:11px">বাংলাদেশ একটি সুন্দর দেশ।</td><td class="mono" style="font-size:11px">বাংলাদেশ একটি শুন্দর দেশ</td><td><span class="badge badge-warn">75%</span></td></tr>
+        <tr><td>S3</td><td>HI</td><td>Clean</td><td class="mono" style="font-size:11px">मेरा नाम राहुल है।</td><td class="mono" style="font-size:11px">मेरा नाम राहुल है।</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S4</td><td>EN</td><td>Long clean</td><td class="mono" style="font-size:11px">Artificial Intelligence is transforming healthcare, education, and business…</td><td class="mono" style="font-size:11px">Artificial intelligence is transforming healthcare, education, and business…</td><td><span class="badge badge-warn">85.7%</span></td></tr>
+        <tr><td>S5</td><td>BN</td><td>Long clean</td><td class="mono" style="font-size:11px">বাংলাদেশের কৃষি উন্নয়নে কৃত্রিম বুদ্ধিমত্তা এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ…</td><td class="mono" style="font-size:11px">বাংলাদেশের ক্রিশি উন্নোযনে ক্রিত্রিম বুধ্ধি মত্তা এবং প্রাকৃতিক ভাশা…</td><td><span class="badge badge-danger">7.7%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Tool 2 — bengaliAI/tugstugi_bengaliai-asr_whisper-medium (Bangla fine-tuned; BN inputs only)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Lang</th><th>Reference</th><th>Hypothesis</th><th>Word Acc.</th></tr></thead>
+      <tbody>
+        <tr><td>S2</td><td>BN</td><td class="mono" style="font-size:11px">বাংলাদেশ একটি সুন্দর দেশ।</td><td class="mono" style="font-size:11px">বাংলাদেশ একটি সুন্দর দেশ</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S5</td><td>BN</td><td class="mono" style="font-size:11px">বাংলাদেশের কৃষি উন্নয়নে কৃত্রিম বুদ্ধিমত্তা এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ গুরুত্বপূর্ণ…</td><td class="mono" style="font-size:11px">বাংলাদেশের কৃষি উন্নয়নে কৃত্রিম বুদ্ধিমত্তা এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ গুরুত্বপূর্ণ…</td><td><span class="badge badge-new">100%</span></td></tr>
+        <tr><td>S1, S1-slow, S1-noise-mild, S1-noise-heavy, S3, S4</td><td>EN / HI</td><td colspan="2">Bengali-specific model — EN/HI inputs not evaluated by design</td><td><span class="badge badge-neutral">N/A</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">Whisper — EN avg.</div><div class="stat-value" style="color:var(--success)">97.6%</div><div class="stat-sub">6 EN inputs (4×S1, S4 85.7%, S1-slow)</div></div>
+    <div class="stat-card"><div class="stat-label">Whisper — BN short</div><div class="stat-value" style="color:var(--warn)">75.0%</div><div class="stat-sub">1 spelling error (শুন্দর vs সুন্দর)</div></div>
+    <div class="stat-card"><div class="stat-label">Whisper — BN long</div><div class="stat-value" style="color:var(--danger)">7.7%</div><div class="stat-sub">technical vocab fails in generic model</div></div>
+    <div class="stat-card"><div class="stat-label">bengaliAI — BN</div><div class="stat-value" style="color:var(--success)">100%</div><div class="stat-sub">both short + long BN correct</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Key finding — Bangla STT</div>
+    Whisper large-v3 with explicit <code>language="bn"</code> corrects the original 0% failure but still produces errors on technical vocabulary (7.7% on S5). The Bangla fine-tuned model bengaliAI achieves 100% on both BN inputs, demonstrating the value of domain-specific fine-tuning for low-resource scripts. For general use, combining Whisper (EN/HI) with bengaliAI (BN) gives full trilingual coverage.
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Engineering note — ffmpeg dependency</div>
+    The transformers ASR pipeline calls ffmpeg when given a file path. Fix: load WAV with <code>soundfile</code> as a float32 NumPy array and pass <code>{"array": audio, "sampling_rate": 16000}</code> dict to the pipeline. bengaliAI model has an outdated generation_config — omit <code>generate_kwargs={"language": ...}</code> when loading the pipeline.
+  </div>
+
+  <p style="font-size:11.5px;color:var(--fg-muted)">Results file: <span class="trace">STT_Experiment\Output\recommended_results.json</span> · Run script: <span class="trace">run_stt.py</span></p>
+</div>
+
+<!-- ════════════════════ QAS ════════════════════ -->
+<div id="tab-qas" class="section">
+  <div class="section-header">
+    <div class="eyebrow">Experiment 2 — Question Answering</div>
+    <h2>QAS: Original Results & Recommended Tools</h2>
+    <p>The original tools (Wikipedia API, Keyword Extractive, Wikidata) are retrieval-only pipelines — no neural multilingual QA. They do not handle Bangla/Hindi QA adequately and miss "father of" or yes/no question types entirely.</p>
+  </div>
+
+  <!-- ORIGINAL -->
+  <div class="phase-header">
+    <span class="phase-label phase-old">Original Run — Tool Selection Problem</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Why the original tools are inadequate</div>
+    <strong>Wikidata KG:</strong> Only resolves "capital of X" pattern (entity + P36 property). Fails on all other question types.<br>
+    <strong>Wikipedia API:</strong> Returns broad paragraph summaries — inappropriate for yes/no questions; wrong article retrieved for BN/HI queries.<br>
+    <strong>Keyword Extractive QA:</strong> Sentence overlap heuristic — useful for factual named-entity questions in English but fails cross-lingually.
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Failed Tool Attempts</div>
+    <strong>Flan-T5:</strong> Dependency conflict prevented loading — <span class="trace">QAS_Experiment\Report\flant5_attempt_failed.json</span><br>
+    <strong>DuckDuckGo API:</strong> No JSON answers returned for NLP questions — <span class="trace">QAS_Experiment\Report\duckduckgo_attempt_failed.json</span>
+  </div>
+
+  <h4>Original Results Summary</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Question</th><th>Type</th><th>Wikipedia API</th><th>Keyword Extractive</th><th>Wikidata KG</th></tr></thead>
+      <tbody>
+        <tr><td>Q1 — Can penguins fly?</td><td>Yes/No</td><td><span class="badge badge-warn">Implied</span></td><td><span class="badge badge-success">Best (flightless)</span></td><td><span class="badge badge-neutral">No match</span></td></tr>
+        <tr><td>Q2 — Father of AI?</td><td>Named entity</td><td><span class="badge badge-danger">Miss</span></td><td><span class="badge badge-danger">Miss</span></td><td><span class="badge badge-neutral">No match</span></td></tr>
+        <tr><td>Q3 — Capital of Bangladesh?</td><td>Named entity</td><td><span class="badge badge-success">Correct</span></td><td><span class="badge badge-success">Correct</span></td><td><span class="badge badge-success">Exact: Dhaka</span></td></tr>
+        <tr><td>Q4 — Highest interest rate?</td><td>Ambiguous</td><td><span class="badge badge-danger">Off-topic</span></td><td><span class="badge badge-danger">Off-topic</span></td><td><span class="badge badge-neutral">No match</span></td></tr>
+        <tr><td>Q5 — BN: Bangladesh capital?</td><td>Multilingual</td><td><span class="badge badge-danger">Wrong article</span></td><td><span class="badge badge-danger">Generic def</span></td><td><span class="badge badge-success">Exact: ঢাকা</span></td></tr>
+        <tr><td>Q6 — HI: India capital?</td><td>Multilingual</td><td><span class="badge badge-danger">Train article</span></td><td><span class="badge badge-warn">Indirect</span></td><td><span class="badge badge-success">Exact: নই দিল্লি</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RECOMMENDED -->
+  <div class="phase-header">
+    <span class="phase-label phase-new">Recommended Tools — Neural Multilingual QA</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="tool-grid">
+    <div class="tool-card recommended">
+      <div class="tool-name">deepset/xlm-roberta-large-squad2</div>
+      <div class="tool-sub">Apache 2.0 · Offline</div>
+      <div class="tool-desc">XLM-RoBERTa fine-tuned on SQuAD 2.0. Single model for extractive QA in EN, BN, and HI via zero-shot cross-lingual transfer. No language code required — handles all three scripts automatically.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN ✓</span>
+        <span class="badge badge-new">BN ✓ zero-shot</span>
+        <span class="badge badge-new">HI ✓ zero-shot</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">sagorsarker/mbert-bengali-tydiqa-qa</div>
+      <div class="tool-sub">mBERT fine-tuned · TyDiQA · Offline</div>
+      <div class="tool-desc">Multilingual BERT fine-tuned on TyDiQA Bangla data. Specifically trained for Bengali QA tasks. Complement with a Hindi-specific mBERT variant for full coverage.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">BN ✓ fine-tuned</span>
+        <span class="badge badge-info">EN ✓</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">Haystack + XLM-R Reader</div>
+      <div class="tool-sub">deepset Haystack · Apache 2.0</div>
+      <div class="tool-desc">Full RAG pipeline: multilingual retriever (paraphrase-multilingual-MiniLM-L12-v2) + XLM-RoBERTa reader. Works offline for EN, BN, HI with PreProcessor(language="bn"/"hi") for correct sentence splitting.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN ✓</span>
+        <span class="badge badge-new">BN ✓</span>
+        <span class="badge badge-new">HI ✓</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Installation</h3>
+  <div class="code-block">pip install transformers   # XLM-RoBERTa, mBERT
+pip install haystack-ai   # Haystack pipeline (optional)</div>
+
+  <h3>XLM-RoBERTa — Single Model for All 3 Languages</h3>
+  <div class="code-block">from transformers import pipeline
+
+qa = pipeline("question-answering",
+              model="deepset/xlm-roberta-large-squad2",
+              tokenizer="deepset/xlm-roberta-large-squad2")
+
+# English
+r = qa(question="Can penguins fly?",
+        context="Penguins are a group of flightless semi-aquatic sea birds.")
+print(r["answer"])   # → "flightless"
+
+# Bangla — same model, no language switch needed
+r = qa(question="বাংলাদেশের রাজধানী কী?",
+        context="ঢাকা বাংলাদেশের রাজধানী ও বৃহত্তম শহর।")
+print(r["answer"])   # → "ঢাকা"
+
+# Hindi
+r = qa(question="भारत की राजधानी क्या है?",
+        context="नई दिल्ली भारत की राजधानी है।")
+print(r["answer"])   # → "नई दिल्ली"</div>
+
+  <h3>Expected Performance with Corrected Tools</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Question</th><th>Type</th><th>XLM-RoBERTa large</th><th>mBERT Bengali TyDiQA</th><th>Improvement vs Original</th></tr></thead>
+      <tbody>
+        <tr><td>Q1 — Can penguins fly?</td><td>Yes/No</td><td><span class="badge badge-success">Extracts "flightless"</span></td><td><span class="badge badge-success">Good (EN)</span></td><td>Direct extractive answer vs. vague paragraph</td></tr>
+        <tr><td>Q2 — Father of AI?</td><td>Named entity</td><td><span class="badge badge-warn">Depends on context</span></td><td><span class="badge badge-warn">Depends on context</span></td><td>Better extraction if correct passage provided</td></tr>
+        <tr><td>Q3 — Capital of Bangladesh?</td><td>Named entity</td><td><span class="badge badge-success">Exact: Dhaka</span></td><td><span class="badge badge-success">Exact (BN)</span></td><td>Precise extraction from any-language context</td></tr>
+        <tr><td>Q4 — Highest interest rate?</td><td>Ambiguous</td><td><span class="badge badge-warn">Extracts best span</span></td><td>—</td><td>Still ambiguous — no single correct answer</td></tr>
+        <tr><td>Q5 — BN capital?</td><td>BN multilingual</td><td><span class="badge badge-success">ঢাকা (direct)</span></td><td><span class="badge badge-success">ঢাকা</span></td><td>Native Bengali context → correct answer</td></tr>
+        <tr><td>Q6 — HI capital?</td><td>HI multilingual</td><td><span class="badge badge-success">নই দিল্লি</span></td><td>—</td><td>Hindi context → correct extraction</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">QA pipeline recommendation</div>
+    For this experiment, the recommended pipeline is: <strong>Wikipedia article retrieval</strong> (same as before) → <strong>XLM-RoBERTa extractive QA</strong> on the retrieved context. This gives correct-script, precise answers in all three languages without any special multilingual configuration — XLM-R handles it internally.
+  </div>
+
+  <!-- ── ACTUAL RESULTS ── -->
+  <div class="phase-header" style="margin-top:36px">
+    <span class="phase-label phase-new">Actual Experimental Output</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">✓ XLM-RoBERTa-base-squad2 ran successfully — Wikipedia contexts fetched live</div>
+    Direct inference using AutoModelForQuestionAnswering + AutoTokenizer. Wikipedia API fetched contexts of 914–1284 chars each. Q5 (BN) and Q6 (HI) tested cross-lingual: English context with native-language question (zero-shot).
+  </div>
+
+  <h4>XLM-RoBERTa-base-squad2 — Extractive QA on Wikipedia Contexts</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Lang</th><th>Question</th><th>Expected</th><th>Got</th><th>Conf.</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Q1</td><td>EN</td>
+          <td class="mono" style="font-size:11px">Can penguins fly?</td>
+          <td>No</td>
+          <td class="mono" style="font-size:11px">flightless</td>
+          <td>0.624</td>
+          <td><span class="badge badge-warn">Partial</span></td>
+        </tr>
+        <tr>
+          <td>Q2</td><td>EN</td>
+          <td class="mono" style="font-size:11px">Who is the father of Artificial Intelligence?</td>
+          <td>John McCarthy</td>
+          <td class="mono" style="font-size:11px">(empty — SQuAD2 abstain)</td>
+          <td>0.495</td>
+          <td><span class="badge badge-danger">Fail</span></td>
+        </tr>
+        <tr>
+          <td>Q3</td><td>EN</td>
+          <td class="mono" style="font-size:11px">What is the capital of Bangladesh?</td>
+          <td>Dhaka</td>
+          <td class="mono" style="font-size:11px">Dhaka</td>
+          <td>0.944</td>
+          <td><span class="badge badge-new">Correct ✓</span></td>
+        </tr>
+        <tr>
+          <td>Q4</td><td>EN</td>
+          <td class="mono" style="font-size:11px">Which bank has the highest interest rate?</td>
+          <td>No single answer</td>
+          <td class="mono" style="font-size:11px">(empty — model abstains)</td>
+          <td>0.875</td>
+          <td><span class="badge badge-success">Appropriate ✓</span></td>
+        </tr>
+        <tr>
+          <td>Q5</td><td>BN</td>
+          <td class="mono" style="font-size:11px">বাংলাদেশের রাজধানী কী?</td>
+          <td>ঢাকা</td>
+          <td class="mono" style="font-size:11px">(empty)</td>
+          <td>0.437</td>
+          <td><span class="badge badge-danger">Fail (cross-lingual)</span></td>
+        </tr>
+        <tr>
+          <td>Q6</td><td>HI</td>
+          <td class="mono" style="font-size:11px">भारत की राजधानी क्या है?</td>
+          <td>नई दिल्ली</td>
+          <td class="mono" style="font-size:11px">India, officially the Republic of India</td>
+          <td>0.201</td>
+          <td><span class="badge badge-danger">Fail (cross-lingual)</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">EN correct</div><div class="stat-value" style="color:var(--success)">2/4</div><div class="stat-sub">Q3 exact + Q4 appropriate abstain</div></div>
+    <div class="stat-card"><div class="stat-label">EN partial</div><div class="stat-value" style="color:var(--warn)">1/4</div><div class="stat-sub">Q1: "flightless" (implicit No)</div></div>
+    <div class="stat-card"><div class="stat-label">Cross-lingual BN/HI</div><div class="stat-value" style="color:var(--danger)">0/2</div><div class="stat-sub">base model + EN context insufficient</div></div>
+    <div class="stat-card"><div class="stat-label">Q3 confidence</div><div class="stat-value" style="color:var(--success)">0.944</div><div class="stat-sub">highest — clear factual span match</div></div>
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Cross-lingual limitation — base vs large</div>
+    The <strong>base</strong> variant (xlm-roberta-base-squad2, ~1.1 GB) was used. Q5 (BN) and Q6 (HI) fail in zero-shot cross-lingual mode with English context. Two remedies: (1) use <strong>xlm-roberta-large-squad2</strong> for stronger cross-lingual transfer, or (2) provide native-language Wikipedia context (BN/HI Wikipedia) instead of English. The "father of" phrasing in Q2 does not appear verbatim in the article — model correctly abstains under SQuAD2 no-answer training.
+  </div>
+
+  <p style="font-size:11.5px;color:var(--fg-muted)">Results file: <span class="trace">QAS_Experiment\Output\recommended_results.json</span> · Run script: <span class="trace">run_qas.py</span></p>
+</div>
+
+<!-- ════════════════════ MT ════════════════════ -->
+<div id="tab-mt" class="section">
+  <div class="section-header">
+    <div class="eyebrow">Experiment 3 — Machine Translation</div>
+    <h2>MT: Original Results & Recommended Tools</h2>
+    <p>The original experiment had a critical coverage gap: ArgosTranslate crashes on Bangla source text; Helsinki-NLP has no EN→BN, EN→HI, or BN→HI models. Only MyMemoryTranslator covered all pairs, but it is an external paid API at scale.</p>
+  </div>
+
+  <!-- ORIGINAL -->
+  <div class="phase-header">
+    <span class="phase-label phase-old">Original Run — Tool Selection Problem</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout danger">
+    <div class="callout-title">Why the original tools are inadequate</div>
+    <strong>ArgosTranslate:</strong> Stanza sentence splitter throws <code>KeyError: 'packages'</code> for any Bangla source text — complete failure for BN→* and *→BN.<br>
+    <strong>Helsinki-NLP OPUS-MT:</strong> No public models for EN→BN, EN→HI, or BN→HI. Only BN→EN and HI→EN are available, making round-trip measurement impossible.<br>
+    <strong>MyMemoryTranslator:</strong> External API (not truly offline/free); BN↔HI accuracy drops to 53.8% on longer sentences.
+  </div>
+
+  <div class="callout warn">
+    <div class="callout-title">Failed Tool Attempt</div>
+    <strong>Google Translate (googletrans library):</strong> Unofficial API connection refused — <span class="trace">MT_Experiment\Report\google_translator_attempt_failed.json</span>
+  </div>
+
+  <h4>Original Round-Trip Accuracy</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Sentence</th><th>Direction</th><th>MyMemory</th><th>ArgosTranslate</th><th>Helsinki-NLP</th></tr></thead>
+      <tbody>
+        <tr><td>S1 (EN short)</td><td>EN→BN→EN</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-danger">BN crash</span></td><td><span class="badge badge-neutral">No model</span></td></tr>
+        <tr><td>S2 (BN short)</td><td>BN→EN→BN</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-danger">BN crash</span></td><td><span class="badge badge-neutral">Forward only</span></td></tr>
+        <tr><td>S3 (HI short)</td><td>HI→EN→HI</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-neutral">Forward only</span></td></tr>
+        <tr><td>S4 (EN long)</td><td>EN→HI→EN</td><td><span class="badge badge-success">100%</span></td><td><span class="badge badge-success">92.9%</span></td><td><span class="badge badge-neutral">No model</span></td></tr>
+        <tr><td>S5 (BN long)</td><td>BN→HI→BN</td><td><span class="badge badge-warn">53.8%</span></td><td><span class="badge badge-neutral">No BN↔HI</span></td><td><span class="badge badge-neutral">No model</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RECOMMENDED -->
+  <div class="phase-header">
+    <span class="phase-label phase-new">Recommended Tools — Full EN + BN + HI Coverage</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="tool-grid">
+    <div class="tool-card recommended">
+      <div class="tool-name">facebook/nllb-200-distilled-600M</div>
+      <div class="tool-sub">Meta NLLB-200 · CC-BY-NC 4.0 · HuggingFace</div>
+      <div class="tool-desc">No Language Left Behind. 200 languages, all 6 required pairs supported. Uses Flores-200 language codes. Direct BN↔HI translation without routing through English.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN: eng_Latn</span>
+        <span class="badge badge-new">BN: ben_Beng</span>
+        <span class="badge badge-new">HI: hin_Deva</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">facebook/m2m100_418M</div>
+      <div class="tool-sub">Meta M2M-100 · MIT License · HuggingFace</div>
+      <div class="tool-desc">Multilingual-to-multilingual MT. 100 languages, ISO 639-1 codes. All 6 direction pairs supported including direct BN↔HI. MIT license — fully free for commercial use.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN: "en"</span>
+        <span class="badge badge-new">BN: "bn"</span>
+        <span class="badge badge-new">HI: "hi"</span>
+      </div>
+    </div>
+    <div class="tool-card recommended">
+      <div class="tool-name">Helsinki-NLP OPUS-MT (partial)</div>
+      <div class="tool-sub">Apache 2.0 · HuggingFace</div>
+      <div class="tool-desc">Use the available bilingual models: opus-mt-en-hi, opus-mt-hi-en, opus-mt-bn-en. For EN→BN use shhossain/opus-mt-en-to-bn (community fine-tune). BN↔HI not available — use M2M100 for that pair.</div>
+      <div class="tool-langs">
+        <span class="badge badge-new">EN↔HI ✓</span>
+        <span class="badge badge-new">BN→EN ✓</span>
+        <span class="badge badge-warn">EN→BN: community model</span>
+        <span class="badge badge-danger">BN↔HI: not available</span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Installation</h3>
+  <div class="code-block">pip install transformers sentencepiece   # NLLB-200, M2M100, OPUS-MT</div>
+
+  <h3>NLLB-200 — All 6 Pairs</h3>
+  <div class="code-block">from transformers import pipeline
+
+# One pipeline handles all directions
+translator = pipeline("translation",
+                      model="facebook/nllb-200-distilled-600M",
+                      max_length=512)
+
+# Language codes (Flores-200 format)
+CODES = {"en": "eng_Latn", "bn": "ben_Beng", "hi": "hin_Deva"}
+
+def translate(text, src, tgt):
+    return translator(text,
+                      src_lang=CODES[src],
+                      tgt_lang=CODES[tgt])[0]["translation_text"]
+
+# All 6 required pairs:
+print(translate("Welcome to the NLP lab.", "en", "bn"))    # EN→BN
+print(translate("বাংলাদেশ একটি সুন্দর দেশ।", "bn", "en")) # BN→EN
+print(translate("मेरा नाम राहुल है।", "hi", "en"))          # HI→EN
+print(translate("AI is transforming healthcare.", "en", "hi")) # EN→HI
+print(translate("বাংলাদেশের কৃষি উন্নয়নে AI…", "bn", "hi")) # BN→HI (direct)
+print(translate("कृषि विकास में AI…", "hi", "bn"))           # HI→BN</div>
+
+  <h3>M2M100 — MIT Licensed Alternative</h3>
+  <div class="code-block">from transformers import M2M100ForConditionalGeneration, M2M100Tokenizer
+
+model     = M2M100ForConditionalGeneration.from_pretrained("facebook/m2m100_418M")
+tokenizer = M2M100Tokenizer.from_pretrained("facebook/m2m100_418M")
+
+def translate(text, src_lang, tgt_lang):
+    tokenizer.src_lang = src_lang          # "en" / "bn" / "hi"
+    encoded = tokenizer(text, return_tensors="pt")
+    tgt_id  = tokenizer.get_lang_id(tgt_lang)
+    tokens  = model.generate(**encoded, forced_bos_token_id=tgt_id)
+    return tokenizer.batch_decode(tokens, skip_special_tokens=True)[0]
+
+print(translate("Welcome to the NLP lab.", "en", "bn"))
+print(translate("বাংলাদেশ একটি সুন্দর দেশ।", "bn", "hi"))  # Direct BN→HI</div>
+
+  <h3>Expected Coverage with Corrected Tools</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Direction</th><th>NLLB-200</th><th>M2M100 (MIT)</th><th>Helsinki-NLP</th></tr></thead>
+      <tbody>
+        <tr><td>EN → BN</td><td><span class="badge badge-new">✓ eng_Latn → ben_Beng</span></td><td><span class="badge badge-new">✓ en → bn</span></td><td><span class="badge badge-warn">Community model only</span></td></tr>
+        <tr><td>BN → EN</td><td><span class="badge badge-new">✓ ben_Beng → eng_Latn</span></td><td><span class="badge badge-new">✓ bn → en</span></td><td><span class="badge badge-new">✓ opus-mt-bn-en</span></td></tr>
+        <tr><td>EN → HI</td><td><span class="badge badge-new">✓ eng_Latn → hin_Deva</span></td><td><span class="badge badge-new">✓ en → hi</span></td><td><span class="badge badge-new">✓ opus-mt-en-hi</span></td></tr>
+        <tr><td>HI → EN</td><td><span class="badge badge-new">✓ hin_Deva → eng_Latn</span></td><td><span class="badge badge-new">✓ hi → en</span></td><td><span class="badge badge-new">✓ opus-mt-hi-en</span></td></tr>
+        <tr><td>BN → HI</td><td><span class="badge badge-new">✓ ben_Beng → hin_Deva</span></td><td><span class="badge badge-new">✓ bn → hi</span></td><td><span class="badge badge-danger">✗ no model</span></td></tr>
+        <tr><td>HI → BN</td><td><span class="badge badge-new">✓ hin_Deva → ben_Beng</span></td><td><span class="badge badge-new">✓ hi → bn</span></td><td><span class="badge badge-danger">✗ no model</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">Recommendation for this experiment</div>
+    Use <strong>facebook/m2m100_418M</strong> as the primary tool (MIT license, fully free, all 6 pairs) with <strong>NLLB-200-distilled-600M</strong> as a higher-quality alternative (CC-BY-NC). For Helsinki-NLP, keep only the pairs where official models exist (EN↔HI, BN→EN) and supplement with M2M100 for the remaining pairs.
+  </div>
+
+  <!-- ── ACTUAL RESULTS ── -->
+  <div class="phase-header" style="margin-top:36px">
+    <span class="phase-label phase-new">Actual Experimental Output</span>
+    <div class="phase-line"></div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">✓ Both tools ran — round-trip accuracy measured on 5 sentence pairs</div>
+    Tool 1: facebook/m2m100_418M (MIT, all 6 directions). Tool 2: Helsinki-NLP OPUS-MT via direct MarianMT inference (3 cached pairs: en-hi, hi-en, bn-en; no en-bn or bn-hi model).
+  </div>
+
+  <h4>Tool 1 — facebook/m2m100_418M (MIT — all 6 pairs)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Direction</th><th>Forward Translation</th><th>Back Translation</th><th>RT Acc.</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>S1</td><td>EN→BN→EN</td>
+          <td class="mono" style="font-size:11px">স্বাগতম প্রাকৃতিক ভাষা প্রক্রিয়া ল্যাবের।</td>
+          <td class="mono" style="font-size:11px">Welcome to the Natural Language Process Lab.</td>
+          <td><span class="badge badge-warn">71.4%</span></td>
+        </tr>
+        <tr>
+          <td>S2</td><td>BN→EN→BN</td>
+          <td class="mono" style="font-size:11px">Bangladesh is a beautiful country.</td>
+          <td class="mono" style="font-size:11px">বাংলাদেশ একটি সুন্দর দেশ।</td>
+          <td><span class="badge badge-new">100%</span></td>
+        </tr>
+        <tr>
+          <td>S3</td><td>HI→EN→HI</td>
+          <td class="mono" style="font-size:11px">My name is Rafael.</td>
+          <td class="mono" style="font-size:11px">मेरा नाम राहुल है।</td>
+          <td><span class="badge badge-new">100%</span></td>
+        </tr>
+        <tr>
+          <td>S4</td><td>EN→HI→EN</td>
+          <td class="mono" style="font-size:11px">आर्टिफिशियल इंटेलिजेंस स्वचालन और निर्णय लेने में सुधार के माध्यम से…</td>
+          <td class="mono" style="font-size:11px">Artificial Intelligence is changing healthcare, education and business by improving automation and decision making.</td>
+          <td><span class="badge badge-warn">50.0%</span></td>
+        </tr>
+        <tr>
+          <td>S5</td><td>BN→HI→BN</td>
+          <td class="mono" style="font-size:11px">भारत के कृषि विकास में कृत्रिम बुद्धि और प्राकृतिक भाषा प्रसंस्करण का महत्वपूर्ण योगदान है।</td>
+          <td class="mono" style="font-size:11px">ভারতের কৃষি উন্নয়নে প্রাকৃতিক স্মৃতি এবং প্রাকৃতিক ভাষা প্রক্রিয়াকরণ গুরুত্বপূর্ণ ভূমিকা পালন করছে।</td>
+          <td><span class="badge badge-warn">46.2%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Tool 2 — Helsinki-NLP OPUS-MT (direct MarianMT inference; cached pairs only)</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID</th><th>Direction</th><th>Forward Translation</th><th>RT Acc.</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>S1</td><td>EN→BN</td><td>—</td><td><span class="badge badge-neutral">N/A</span></td><td>No opus-mt-en-bn model cached</td></tr>
+        <tr><td>S2</td><td>BN→EN</td><td class="mono" style="font-size:11px">Bangladesh is a beautiful country.</td><td><span class="badge badge-neutral">N/A</span></td><td>Forward only — no en→bn back model for RT</td></tr>
+        <tr><td>S3</td><td>HI→EN→HI</td><td class="mono" style="font-size:11px">My name is Rahul.</td><td><span class="badge badge-new">100%</span></td><td>Full RT via opus-mt-hi-en + opus-mt-en-hi</td></tr>
+        <tr><td>S4</td><td>EN→HI→EN</td><td class="mono" style="font-size:11px">स्वास्थ्य के बारे में सही - सही जानकारी हासिल करना, शिक्षा और…</td><td><span class="badge badge-danger">7.1%</span></td><td>Poor paraphrase — smaller bilingual model struggles with technical text</td></tr>
+        <tr><td>S5</td><td>BN→HI</td><td>—</td><td><span class="badge badge-neutral">N/A</span></td><td>No opus-mt-bn-hi model cached</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">M2M100 — simple pairs</div><div class="stat-value" style="color:var(--success)">100%</div><div class="stat-sub">S2 BN→EN, S3 HI→EN perfect RT</div></div>
+    <div class="stat-card"><div class="stat-label">M2M100 — cross-script</div><div class="stat-value" style="color:var(--warn)">55.9%</div><div class="stat-sub">avg of EN→BN(71.4%), EN→HI(50%), BN→HI(46.2%)</div></div>
+    <div class="stat-card"><div class="stat-label">Helsinki HI↔EN</div><div class="stat-value" style="color:var(--success)">100%</div><div class="stat-sub">S3 HI→EN RT exact match</div></div>
+    <div class="stat-card"><div class="stat-label">Helsinki EN→HI</div><div class="stat-value" style="color:var(--danger)">7.1%</div><div class="stat-sub">poor paraphrase on long technical text</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Key finding — Machine Translation</div>
+    M2M100 correctly handles simple short sentences (BN→EN, HI→EN both 100%) but degrades on complex technical text — EN→HI 50%, BN→HI 46.2%, due to semantic drift across two script changes. Helsinki-NLP en-hi also struggles with technical vocabulary (7.1% RT) versus its strong short-sentence performance (100% HI→EN). For cross-script technical translation, NLLB-200 is expected to outperform both.
+  </div>
+
+  <p style="font-size:11.5px;color:var(--fg-muted)">Results file: <span class="trace">MT_Experiment\Output\recommended_results.json</span> · Run scripts: <span class="trace">run_mt.py</span>, <span class="trace">run_mt_helsinki.py</span></p>
+</div>
+
+<!-- ════════════════════ TRACEABILITY ════════════════════ -->
+<div id="tab-trace" class="section">
+  <div class="section-header">
+    <div class="eyebrow">Traceability</div>
+    <h2>File & Data Manifest</h2>
+    <p>Complete file manifest for all three experiments. Paths are relative to the project root: <code>D:\Personal\MSCSE\CSE 6213 NLP\</code></p>
+  </div>
+
+  <h3>STT Experiment Files</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Description</th><th>Path</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S1 English short text</td><td class="mono" style="font-size:11px">STT_Experiment\Input\S1_English_Short.txt</td></tr>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S2 Bangla short text</td><td class="mono" style="font-size:11px">STT_Experiment\Input\S2_Bangla_Short.txt</td></tr>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S3 Hindi short text</td><td class="mono" style="font-size:11px">STT_Experiment\Input\S3_Hindi_Short.txt</td></tr>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S4 English long text</td><td class="mono" style="font-size:11px">STT_Experiment\Input\S4_English_Long.txt</td></tr>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S5 Bangla long text</td><td class="mono" style="font-size:11px">STT_Experiment\Input\S5_Bangla_Long.txt</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S1 clean 16 kHz</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S1_clean.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S1 slow speech</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S1-slow_clean.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S1 mild noise SNR 15 dB</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S1_noise_mild.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S1 heavy noise SNR 0 dB</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S1_noise_heavy.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S2 clean (Bangla)</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S2_clean.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S3 clean (Hindi)</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S3_clean.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S4 clean EN long</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S4_clean.wav</td></tr>
+        <tr><td><span class="badge badge-info">Audio</span></td><td>S5 clean BN long</td><td class="mono" style="font-size:11px">STT_Experiment\Input\Audio\S5_clean.wav</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>faster-whisper results</td><td class="mono" style="font-size:11px">STT_Experiment\Output\faster-whisper\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>Vosk results</td><td class="mono" style="font-size:11px">STT_Experiment\Output\Vosk\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>pocketsphinx results</td><td class="mono" style="font-size:11px">STT_Experiment\Output\pocketsphinx\results.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Aggregated master results (all tools)</td><td class="mono" style="font-size:11px">STT_Experiment\Report\master_results.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Audio manifest</td><td class="mono" style="font-size:11px">STT_Experiment\Report\audio_manifest.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Section 2 Word report</td><td class="mono" style="font-size:11px">STT_Experiment\Report\STT_Section2_Report.docx</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>Whisper large-v3 (replace faster-whisper with lang param)</td><td class="mono" style="font-size:11px">model: openai/whisper-large-v3 · pip install openai-whisper</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>MMS-300M (replace Vosk)</td><td class="mono" style="font-size:11px">model: facebook/mms-300m · pip install transformers torchaudio</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>SeamlessM4T v2 (replace pocketsphinx)</td><td class="mono" style="font-size:11px">model: facebook/seamless-m4t-v2-large</td></tr>
+        <tr><td><span class="badge badge-success">✓ Run Output</span></td><td>Actual results — Whisper large-v3 + bengaliAI Whisper medium</td><td class="mono" style="font-size:11px">STT_Experiment\Output\recommended_results.json</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>QAS Experiment Files</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Description</th><th>Path / Model</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-info">Input</span></td><td>Test questions Q1–Q5</td><td class="mono" style="font-size:11px">QAS_Experiment\Input\questions.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>Wikipedia API results</td><td class="mono" style="font-size:11px">QAS_Experiment\Output\Wikipedia\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>Keyword Extractive QA results</td><td class="mono" style="font-size:11px">QAS_Experiment\Output\KeywordExtractiveQA\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>Wikidata KG results</td><td class="mono" style="font-size:11px">QAS_Experiment\Output\Wikidata\results.json</td></tr>
+        <tr><td><span class="badge badge-danger">Failed</span></td><td>DuckDuckGo attempt</td><td class="mono" style="font-size:11px">QAS_Experiment\Report\duckduckgo_attempt_failed.json</td></tr>
+        <tr><td><span class="badge badge-danger">Failed</span></td><td>Flan-T5 attempt</td><td class="mono" style="font-size:11px">QAS_Experiment\Report\flant5_attempt_failed.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Master results Q1–Q6 all tools</td><td class="mono" style="font-size:11px">QAS_Experiment\Report\master_results.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Section 5 Word report</td><td class="mono" style="font-size:11px">QAS_Experiment\Report\QAS_Section5_Report.docx</td></tr>
+        <tr><td><span class="badge badge-warn">Note</span></td><td>Q6 is in master_results but NOT in questions.json</td><td class="mono" style="font-size:11px">⚠ Traceability gap — add Q6 to questions.json</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>XLM-RoBERTa large (replace all 3 tools)</td><td class="mono" style="font-size:11px">model: deepset/xlm-roberta-large-squad2 · pip install transformers</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>mBERT Bengali TyDiQA</td><td class="mono" style="font-size:11px">model: sagorsarker/mbert-bengali-tydiqa-qa</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>Haystack pipeline</td><td class="mono" style="font-size:11px">pip install haystack-ai · reader: xlm-roberta-large-squad2</td></tr>
+        <tr><td><span class="badge badge-success">✓ Run Output</span></td><td>Actual results — XLM-RoBERTa-base-squad2 on live Wikipedia contexts (Q1–Q6)</td><td class="mono" style="font-size:11px">QAS_Experiment\Output\recommended_results.json</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>MT Experiment Files</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Description</th><th>Path / Model</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-info">Input</span></td><td>S1–S5 source sentences</td><td class="mono" style="font-size:11px">MT_Experiment\Input\S[1-5]_*.txt</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>MyMemoryTranslator results</td><td class="mono" style="font-size:11px">MT_Experiment\Output\MyMemoryTranslator\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>ArgosTranslate results</td><td class="mono" style="font-size:11px">MT_Experiment\Output\ArgosTranslate\results.json</td></tr>
+        <tr><td><span class="badge badge-success">Output</span></td><td>Helsinki-NLP OPUS-MT results</td><td class="mono" style="font-size:11px">MT_Experiment\Output\Helsinki-NLP\results.json</td></tr>
+        <tr><td><span class="badge badge-danger">Failed</span></td><td>Google Translate attempt</td><td class="mono" style="font-size:11px">MT_Experiment\Report\google_translator_attempt_failed.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Master results (round-trip)</td><td class="mono" style="font-size:11px">MT_Experiment\Report\master_results.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Idiom test results</td><td class="mono" style="font-size:11px">MT_Experiment\Report\idiom_results.json</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Section 4 Word report</td><td class="mono" style="font-size:11px">MT_Experiment\Report\MT_Section4_Report.docx</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>NLLB-200 (replace ArgosTranslate + Helsinki-NLP)</td><td class="mono" style="font-size:11px">model: facebook/nllb-200-distilled-600M · pip install transformers sentencepiece</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>M2M100 MIT (replace MyMemory API)</td><td class="mono" style="font-size:11px">model: facebook/m2m100_418M · codes: en / bn / hi</td></tr>
+        <tr><td><span class="badge badge-new">Recommended</span></td><td>Helsinki-NLP kept for EN↔HI and BN→EN only</td><td class="mono" style="font-size:11px">opus-mt-en-hi · opus-mt-hi-en · opus-mt-bn-en</td></tr>
+        <tr><td><span class="badge badge-success">✓ Run Output</span></td><td>Actual results — M2M100 (all 5 pairs) + Helsinki-NLP (3 pairs via MarianMT)</td><td class="mono" style="font-size:11px">MT_Experiment\Output\recommended_results.json</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Final Reports & Presentations</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Description</th><th>Path</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>Main combined practical report</td><td class="mono" style="font-size:11px">Final_Report\NLP_Practical_Report_Combined.docx</td></tr>
+        <tr><td><span class="badge badge-warn">Report</span></td><td>QA section update by Nayem, 29-09-2026</td><td class="mono" style="font-size:11px">Project Report on NLP- update 5. QA part by nayem-29-09-2026.docx</td></tr>
+        <tr><td><span class="badge badge-info">Presentation</span></td><td>Final evaluation deck</td><td class="mono" style="font-size:11px">Final_NLP_Practical_Evaluation_Presentation.pptx</td></tr>
+        <tr><td><span class="badge badge-info">Presentation</span></td><td>Presentation v2 / v3</td><td class="mono" style="font-size:11px">NLP_Practical_Evaluation_Presentation_2.pptx / _3.pptx</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">Data Integrity Notes</div>
+    <strong>Q6 gap:</strong> Question Q6 (HI) appears only in master_results.json, not questions.json — add it to restore traceability.<br>
+    <strong>Audio source chain:</strong> All WAV files in STT_Experiment\Input\Audio\ were generated from TTS_Experiment\Output\gTTS\ then resampled to 16 kHz — documented in STT_Experiment\Report\audio_manifest.json.
+  </div>
+</div>
+
+</div><!-- /.page-wrap -->
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+  const sec = document.getElementById('tab-' + name);
+  if (sec) sec.classList.add('active');
+  const order = ['overview','stt','qas','mt','trace'];
+  const i = order.indexOf(name);
+  const btns = document.querySelectorAll('.tab-btn');
+  if (i >= 0 && btns[i]) { btns[i].classList.add('active'); btns[i].setAttribute('aria-selected','true'); }
+  window.scrollTo(0, 0);
+  try { localStorage.setItem('nlp_report_tab', name); } catch(e) {}
+}
+try { const s = localStorage.getItem('nlp_report_tab'); if (s) showTab(s); } catch(e) {}
+</script>

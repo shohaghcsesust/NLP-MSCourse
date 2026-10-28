@@ -1,0 +1,62 @@
+[
+  {
+    "id": "Q1",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Can penguins fly?",
+    "type": "Factual (yes/no)",
+    "expected": "No",
+    "tool": "DuckDuckGo Instant Answer API",
+    "answer": null,
+    "raw_heading": "",
+    "abstract_source": ""
+  },
+  {
+    "id": "Q2",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Who is the father of Artificial Intelligence?",
+    "type": "Factual (named entity)",
+    "expected": "John McCarthy",
+    "tool": "DuckDuckGo Instant Answer API",
+    "answer": null,
+    "raw_heading": "",
+    "abstract_source": ""
+  },
+  {
+    "id": "Q3",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "What is the capital of Bangladesh?",
+    "type": "Factual (named entity)",
+    "expected": "Dhaka",
+    "tool": "DuckDuckGo Instant Answer API",
+    "answer": null,
+    "raw_heading": "",
+    "abstract_source": ""
+  },
+  {
+    "id": "Q4",
+    "lang": "en",
+    "lang_full": "English",
+    "question": "Which bank has the highest interest rate?",
+    "type": "Ambiguous / underspecified",
+    "expected": "No single correct answer - depends on country, account type, and time period",
+    "tool": "DuckDuckGo Instant Answer API",
+    "answer": null,
+    "raw_heading": "",
+    "abstract_source": ""
+  },
+  {
+    "id": "Q5",
+    "lang": "bn",
+    "lang_full": "Bangla",
+    "question": "বাংলাদেশের রাজধানী কী?",
+    "type": "Factual (named entity, multilingual)",
+    "expected": "ঢাকা (Dhaka)",
+    "tool": "DuckDuckGo Instant Answer API",
+    "answer": null,
+    "raw_heading": "",
+    "abstract_source": ""
+  }
+]
